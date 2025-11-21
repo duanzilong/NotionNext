@@ -38,8 +38,11 @@ export default function ArticleCopyright() {
         </li>
         <li>
           <strong className='mr-2'>{locale.COMMON.COPYRIGHT}:</strong>
-<span className='whitespace-normal break-words hover:underline'>
-          {locale.COMMON.COPYRIGHT_NOTICE}</span>
+          <a
+            className='whitespace-normal break-words hover:underline'
+            href={path}>
+          {locale.COMMON.COPYRIGHT_NOTICE}
+</a>
         </li>
         {siteConfig('HEXO_ARTICLE_NOT_BY_AI', false, CONFIG) && (
           <li>
