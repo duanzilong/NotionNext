@@ -14,28 +14,26 @@ const Footer = ({ title }) => {
     <footer className='relative z-10 dark:bg-black flex-shrink-0 bg-hexo-light-gray justify-center text-center m-auto w-full leading-6  text-gray-600 dark:text-gray-100 text-sm p-6'>
       {/* <DarkModeButton/> */}
       <i className='fas fa-copyright' /> {`${copyrightDate}`}
-      <span>
+      <span className='pl-1'  >
         <i className='mx-1 animate-pulse fas fa-heart' />
         <a
           href={siteConfig('LINK')}
-          className='underline font-bold  dark:text-gray-300 '>
+          className='font-bold  dark:text-gray-300 '>
           {siteConfig('AUTHOR')}
         </a>
-        .<br />
         <BeiAnSite />
         <BeiAnGongAn />
-        <span className='hidden busuanzi_container_site_pv'>
-          <i className='fas fa-eye' />
-          <span className='px-1 busuanzi_value_site_pv'> </span>
+        <span className='pl-1 hidden busuanzi_container_site_pv'>
+          <i className='mx-1 fas fa-eye' />
+          <span className='busuanzi_value_site_pv'> </span>
         </span>
-        <span className='pl-2 hidden busuanzi_container_site_uv'>
-          <i className='fas fa-users' />
-          <span className='px-1 busuanzi_value_site_uv'> </span>
+        <span className='pl-1 hidden busuanzi_container_site_uv'>
+          <i className='mx-1 fas fa-user' />
+          <span className='busuanzi_value_site_uv'> </span>
         </span>
-        <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
+        <h5 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
           {title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}
-        </h1>
-        <PoweredBy className='justify-center' />
+        </h5>
       </span>
       <br />
     </footer>

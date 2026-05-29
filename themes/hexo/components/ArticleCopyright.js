@@ -21,7 +21,7 @@ export default function ArticleCopyright({ post }) {
 
   return (
     <section className='dark:text-gray-300 mt-6 mx-1 '>
-      <ul className='overflow-x-auto whitespace-nowrap text-sm dark:bg-gray-900 bg-gray-100 p-5 leading-8 border-l-2 border-indigo-500'>
+      <ul className='overflow-x-auto whitespace-normal text-sm dark:bg-gray-900 bg-gray-100 p-5 leading-8 border-l-2 border-indigo-500'>
         <li>
           <strong className='mr-2'>{locale.COMMON.AUTHOR}:</strong>
           <SmartLink href={'/about'} className='hover:underline'>
@@ -31,7 +31,7 @@ export default function ArticleCopyright({ post }) {
         <li>
           <strong className='mr-2'>{locale.COMMON.URL}:</strong>
           <a
-            className='whitespace-normal break-words hover:underline'
+            className='whitespace-normal break-all hover:underline'
             href={path}>
             {path}
           </a>
