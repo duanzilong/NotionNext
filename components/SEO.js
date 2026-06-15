@@ -118,6 +118,8 @@ const SEO = props => {
     <Head>
       <link rel='icon' href={favicon} />
       <title>{title}</title>
+	        {/* 动态添加 Canonical 标签 */}
+      {canonicalBase && <link rel="canonical" href={canonicalUrl} />}
       <meta name='theme-color' content={BACKGROUND_DARK} />
       <meta
         name='viewport'
@@ -125,8 +127,6 @@ const SEO = props => {
       />
       <meta name='robots' content='follow, index, max-snippet:-1, max-image-preview:large, max-video-preview:-1' />
       <meta charSet='UTF-8' />
-	        {/* 动态添加 Canonical 标签 */}
-      {canonicalBase && <link rel="canonical" href={canonicalUrl} />}
       <meta name='format-detection' content='telephone=no' />
       <meta name='mobile-web-app-capable' content='yes' />
       <meta name='apple-mobile-web-app-capable' content='yes' />
