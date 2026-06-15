@@ -125,6 +125,8 @@ const SEO = props => {
       />
       <meta name='robots' content='follow, index, max-snippet:-1, max-image-preview:large, max-video-preview:-1' />
       <meta charSet='UTF-8' />
+	        {/* 动态添加 Canonical 标签 */}
+      {canonicalBase && <link rel="canonical" href={canonicalUrl} />}
       <meta name='format-detection' content='telephone=no' />
       <meta name='mobile-web-app-capable' content='yes' />
       <meta name='apple-mobile-web-app-capable' content='yes' />
@@ -146,8 +148,6 @@ const SEO = props => {
       )}
 
       {/* 基础SEO元数据 */}
-	        {/* 动态添加 Canonical 标签 */}
-      {canonicalBase && <link rel="canonical" href={canonicalUrl} />}
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
