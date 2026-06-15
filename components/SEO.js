@@ -18,6 +18,22 @@ const SEO = props => {
   let url = PATH?.length ? `${LINK}/${SUB_PATH}` : LINK
   let image
   const router = useRouter()
+  
+
+  
+  // 从环境变量读取主站域名，如果没有配置则回退到当前配置的站点链接
+  const canonicalBase = process.env.NEXT_PUBLIC_CANONICAL_URL || siteInfo?.link || ''
+  
+  // 获取当前路径，并去除查询参数 (如 ?abc=123)
+  const currentPath = router.asPath.split('?')[0]
+  
+  // 拼接完整的 Canonical URL
+  const canonicalUrl = `${canonicalBase}${currentPath}`
+  
+  // ... 原有代码  
+  
+  
+  
   const meta = getSEOMeta(props, router, useGlobal()?.locale)
   const webFontUrl = siteConfig('FONT_URL')
 
@@ -109,6 +125,8 @@ const SEO = props => {
       />
       <meta name='robots' content='follow, index, max-snippet:-1, max-image-preview:large, max-video-preview:-1' />
       <meta charSet='UTF-8' />
+	        {/* 动态添加 Canonical 标签 */}
+      {canonicalBase && <link rel="canonical" href={canonicalUrl} />}
       <meta name='format-detection' content='telephone=no' />
       <meta name='mobile-web-app-capable' content='yes' />
       <meta name='apple-mobile-web-app-capable' content='yes' />
