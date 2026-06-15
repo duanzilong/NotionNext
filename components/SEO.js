@@ -118,8 +118,6 @@ const SEO = props => {
     <Head>
       <link rel='icon' href={favicon} />
       <title>{title}</title>
-	        {/* 动态添加 Canonical 标签 */}
-      {canonicalBase && <link rel="canonical" href={canonicalUrl} />}
       <meta name='theme-color' content={BACKGROUND_DARK} />
       <meta
         name='viewport'
@@ -148,6 +146,8 @@ const SEO = props => {
       )}
 
       {/* 基础SEO元数据 */}
+	        {/* 动态添加 Canonical 标签 */}
+      {canonicalBase && <link rel="canonical" href={canonicalUrl} />}
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
