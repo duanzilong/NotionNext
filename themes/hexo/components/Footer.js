@@ -21,23 +21,23 @@ const Footer = ({ title }) => {
           className='underline font-bold  dark:text-gray-300 '>
           {siteConfig('AUTHOR')}
         </a>
-        .<br />
+
         <BeiAnSite />
         <BeiAnGongAn />
-        <span className='hidden busuanzi_container_site_pv'>
+        <span className='hidden busuanzi_container_site_pv pl-2'>
           <i className='fas fa-eye' />
           <span className='px-1 busuanzi_value_site_pv'> </span>
         </span>
         <span className='pl-2 hidden busuanzi_container_site_uv'>
-          <i className='fas fa-users' />
+          <i className='fas fa-user' />
           <span className='px-1 busuanzi_value_site_uv'> </span>
         </span>
         <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
           {title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}
         </h1>
-        <PoweredBy className='justify-center' />
+
       </span>
-      <br />
+
     </footer>
   )
 }
