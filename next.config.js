@@ -194,6 +194,10 @@ function getOutput() {
 }
 
 const nextConfig = {
+//edgeone部署
+  images: {
+    unoptimized: true,     // 静态导出时必须禁用图片优化功能
+  },	
   eslint: {
     ignoreDuringBuilds: true
   },
