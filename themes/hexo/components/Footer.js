@@ -15,21 +15,21 @@ const Footer = ({ title }) => {
       {/* <DarkModeButton/> */}
       <i className='fas fa-copyright' /> {`${copyrightDate}`}
       <span>
-        <i className='mx-1 animate-pulse fas fa-heart pl-1' />
+        <i className='mx-1 animate-pulse fas fa-chevron-circle-up pl-1' />
         <a
           href={siteConfig('LINK')}
-          className='underline font-bold  dark:text-gray-300 '>
+          className='dark:text-gray-300 '>
           {siteConfig('AUTHOR')}
         </a>
 
         <BeiAnSite />
         <BeiAnGongAn />
         <span className='hidden busuanzi_container_site_pv pl-2'>
-          <i className='fas fa-eye' />
+          <i className='fas fa-exclamation-circle' />
           <span className='px-1 busuanzi_value_site_pv'> </span>
         </span>
         <span className='pl-1 hidden busuanzi_container_site_uv'>
-          <i className='fas fa-user' />
+          <i className='fas fa-user-circle' />
           <span className='px-1 busuanzi_value_site_uv'> </span>
         </span>
         <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>
