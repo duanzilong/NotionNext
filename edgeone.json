@@ -1,0 +1,9 @@
+{
+  "installCommand": "yarn install --frozen-lockfile --ignore-optional --ignore-scripts --cache-folder /tmp/yarn-cache",
+  "buildCommand": "yarn export",  // 将构建命令改为 yarn export
+  "outputDirectory": "out",       // 输出目录为 out
+  "environmentVariables": {
+    "NODE_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  }
+}
