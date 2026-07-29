@@ -5,5 +5,6 @@
   "environmentVariables": {
     "NODE_ENV": "production",
     "NEXT_TELEMETRY_DISABLED": "1"
-  }
+  },
+    "functions": []   // 禁用所有边缘函数
 }
