@@ -5,7 +5,7 @@ import { idToUuid } from 'notion-utils';
 import BLOG from './blog.config';
 
 // 关键：强制指定边缘运行时，使其兼容 EdgeOne 环境
-export const runtime = 'edge';
+//export const runtime = 'edge';
 
 // 匹配规则（保持不变）
 export const config = {
