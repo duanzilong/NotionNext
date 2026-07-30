@@ -1,10 +1,9 @@
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { createSiteUrl, normalizeSiteUrl } from '@/lib/sitemap-utils'
-import { isHttpLink, loadExternalResource } from '@/lib/utils'
+import { isHttpLink } from '@/lib/utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 /**
  * 页面的Head头，有用于SEO
@@ -22,35 +21,6 @@ const SEO = props => {
   let image
   const router = useRouter()
   const meta = getSEOMeta(props, router, useGlobal()?.locale)
-  const webFontUrl = siteConfig('FONT_URL')
-  const hasWebFontUrl = Array.isArray(webFontUrl)
-    ? webFontUrl.filter(Boolean).length > 0
-    : Boolean(webFontUrl)
-
-  useEffect(() => {
-    if (!hasWebFontUrl) return
-
-    const timeoutId = window.setTimeout(() => {
-      // 使用WebFontLoader字体加载
-      loadExternalResource(
-        'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js',
-        'js'
-      ).then(url => {
-        const WebFont = window?.WebFont
-        if (WebFont) {
-          // console.log('LoadWebFont', webFontUrl)
-          WebFont.load({
-            custom: {
-              // families: ['"LXGW WenKai"'],
-              urls: webFontUrl
-            }
-          })
-        }
-      })
-    }, 1500)
-
-    return () => window.clearTimeout(timeoutId)
-  }, [hasWebFontUrl, webFontUrl])
 
   // SEO关键词
   const KEYWORDS = siteConfig('KEYWORDS')
@@ -62,17 +32,20 @@ const SEO = props => {
     url = createSiteUrl(url, meta.slug) || url
     image = getAbsoluteImageUrl(meta.image || '/bg_image.jpg', LINK)
   }
- 
-  // ==========新增开始==========
-  // 独立生成 canonicalUrl，仅用于SEO标签，不修改原有url，保护搜索路由
+
+  // ====================== canonicalUrl 逻辑 try‑catch保护SSR不崩 ======================
   let canonicalUrl = url
-  if (process.env.NEXT_PUBLIC_CANONICAL_URL) {
-    const canonicalBase = normalizeSiteUrl(process.env.NEXT_PUBLIC_CANONICAL_URL)
-    // 把原始url的域名替换成canonicalBase，保留路径slug不变
-    const originUrlObj = new URL(url)
-    canonicalUrl = createSiteUrl(canonicalBase, originUrlObj.pathname)
+  const CANONICAL_ENV = process.env.NEXT_PUBLIC_CANONICAL_URL
+  if (CANONICAL_ENV) {
+    const canonicalBase = normalizeSiteUrl(CANONICAL_ENV)
+    try {
+      const originalUrlObj = new URL(url)
+      canonicalUrl = createSiteUrl(canonicalBase, originalUrlObj.pathname)
+    } catch (e) {
+      canonicalUrl = url
+    }
   }
-  // ==========新增结束==========
+  // ====================================================================================
 
   const TITLE = siteConfig('TITLE')
   const title = meta?.title || TITLE
@@ -80,10 +53,10 @@ const SEO = props => {
   const type = meta?.type === 'Post' ? 'article' : meta?.type || 'website'
   const language =
     router?.locale || siteConfig('LANG', 'zh-CN', NOTION_CONFIG)
-  const lang = String(language).replace('-', '_') // Facebook OpenGraph 要 zh_CN 這樣的格式才抓得到語言
+  const lang = String(language).replace('-', '_')
   const category = Array.isArray(meta?.category)
     ? meta?.category?.[0]
-    : meta?.category || KEYWORDS // section 主要是像是 category 這樣的分類，Facebook 用這個來抓連結的分類
+    : meta?.category || KEYWORDS
   const favicon = siteConfig('BLOG_FAVICON')
   const BACKGROUND_DARK = siteConfig('BACKGROUND_DARK', '', NOTION_CONFIG)
 
@@ -95,6 +68,12 @@ const SEO = props => {
 
   const SEO_GOOGLE_SITE_VERIFICATION = siteConfig(
     'SEO_GOOGLE_SITE_VERIFICATION',
+    null,
+    NOTION_CONFIG
+  )
+
+  const SEO_BING_SITE_VERIFICATION = siteConfig(
+    'SEO_BING_SITE_VERIFICATION',
     null,
     NOTION_CONFIG
   )
@@ -145,7 +124,6 @@ const SEO = props => {
       <meta name='apple-mobile-web-app-status-bar-style' content='default' />
       <meta name='apple-mobile-web-app-title' content={title} />
 
-      {/* 搜索引擎验证 */}
       {SEO_GOOGLE_SITE_VERIFICATION && (
         <meta
           name='google-site-verification'
@@ -158,19 +136,21 @@ const SEO = props => {
           content={SEO_BAIDU_SITE_VERIFICATION}
         />
       )}
+      {SEO_BING_SITE_VERIFICATION && (
+        <meta name='msvalidate.01'
+		content={SEO_BING_SITE_VERIFICATION} />
+      )}
 
-      {/* 基础SEO元数据 */}
       <link rel='canonical' href={canonicalUrl} />
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
       <meta name='generator' content='NotionNext' />
 
-      {/* 语言和地区 */}
       <meta httpEquiv='content-language' content={language} />
       <meta name='geo.region' content={siteConfig('GEO_REGION', 'CN')} />
       <meta name='geo.country' content={siteConfig('GEO_COUNTRY', 'CN')} />
-      {/* Open Graph 元数据 */}
+
       <meta property='og:locale' content={lang} />
       <meta property='og:title' content={title} />
       <meta property='og:description' content={description} />
@@ -182,7 +162,6 @@ const SEO = props => {
       <meta property='og:site_name' content={siteConfig('TITLE')} />
       <meta property='og:type' content={type} />
 
-      {/* Twitter Card 元数据 */}
       <meta name='twitter:card' content='summary_large_image' />
       {TWITTER_SITE && <meta name='twitter:site' content={TWITTER_SITE} />}
       {TWITTER_CREATOR && (
@@ -214,7 +193,7 @@ const SEO = props => {
       {ANALYTICS_BUSUANZI_ENABLE && (
         <meta name='referrer' content='no-referrer-when-downgrade' />
       )}
-      {/* 文章特定元数据 */}
+
       {meta?.type === 'Post' && (
         <>
           {meta.publishTime && (
@@ -235,7 +214,6 @@ const SEO = props => {
         </>
       )}
 
-      {/* 结构化数据 */}
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
@@ -245,32 +223,11 @@ const SEO = props => {
         }}
       />
 
-      {/* DNS预取和预连接 */}
-      {hasWebFontUrl && <link rel='dns-prefetch' href='//fonts.googleapis.com' />}
-      <link rel='dns-prefetch' href='//www.google-analytics.com' />
-      <link rel='dns-prefetch' href='//www.googletagmanager.com' />
-      {hasWebFontUrl && (
-        <link
-          rel='preconnect'
-          href='https://fonts.gstatic.com'
-          crossOrigin='anonymous'
-        />
-      )}
-
       {children}
     </Head>
   )
 }
 
-/**
- * 生成结构化数据
- * @param {*} meta
- * @param {*} siteInfo
- * @param {*} url
- * @param {*} image
- * @param {*} author
- * @returns
- */
 export const generateStructuredData = (
   meta,
   siteInfo,
@@ -299,7 +256,6 @@ export const generateStructuredData = (
     }
   }
 
-  // 如果是文章页面，添加文章结构化数据
   if (meta?.type === 'Post') {
     return {
       '@context': 'https://schema.org',
@@ -355,11 +311,6 @@ const getIsoTime = value => {
   return date.toISOString()
 }
 
-/**
- * 获取SEO信息
- * @param {*} props
- * @param {*} router
- */
 const getSEOMeta = (props, router, locale) => {
   const { post, siteInfo, tag, category, page } = props
   const keyword = router?.query?.s
