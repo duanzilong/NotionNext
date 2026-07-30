@@ -18,13 +18,7 @@ const SEO = props => {
     siteConfig('LINK', siteInfo?.link, NOTION_CONFIG)
   )
   const SUB_PATH = siteConfig('SUB_PATH', '')
-
-  // 使用环境变量 NEXT_PUBLIC_CANONICAL_URL 作为canonical域名，回退原有LINK
-  const canonicalBase = process.env.NEXT_PUBLIC_CANONICAL_URL
-    ? normalizeSiteUrl(process.env.NEXT_PUBLIC_CANONICAL_URL)
-    : LINK
-
-  let url = PATH?.length ? createSiteUrl(canonicalBase, SUB_PATH) || canonicalBase : canonicalBase
+  let url = PATH?.length ? createSiteUrl(LINK, SUB_PATH) || LINK : LINK
   let image
   const router = useRouter()
   const meta = getSEOMeta(props, router, useGlobal()?.locale)
@@ -44,10 +38,8 @@ const SEO = props => {
       ).then(url => {
         const WebFont = window?.WebFont
         if (WebFont) {
-          // console.log('LoadWebFont', webFontUrl)
           WebFont.load({
             custom: {
-              // families: ['"LXGW WenKai"'],
               urls: webFontUrl
             }
           })
@@ -68,6 +60,16 @@ const SEO = props => {
     url = createSiteUrl(url, meta.slug) || url
     image = getAbsoluteImageUrl(meta.image || '/bg_image.jpg', LINK)
   }
+
+  // ====================== 新增：独立计算 canonicalUrl 不污染原有url变量 ======================
+  let canonicalUrl = url
+  if (process.env.NEXT_PUBLIC_CANONICAL_URL) {
+    const canonicalBase = normalizeSiteUrl(process.env.NEXT_PUBLIC_CANONICAL_URL)
+    const originUrlObj = new URL(url)
+    canonicalUrl = createSiteUrl(canonicalBase, originUrlObj.pathname)
+  }
+  // =========================================================================================
+
   const TITLE = siteConfig('TITLE')
   const title = meta?.title || TITLE
   const description = meta?.description || `${siteInfo?.description}`
@@ -153,8 +155,8 @@ const SEO = props => {
         />
       )}
 
-      {/* 基础SEO元数据 */}
-      <link rel='canonical' href={url} />
+      {/* 基础SEO元数据 使用 canonicalUrl */}
+      <link rel='canonical' href={canonicalUrl} />
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
@@ -164,11 +166,11 @@ const SEO = props => {
       <meta httpEquiv='content-language' content={language} />
       <meta name='geo.region' content={siteConfig('GEO_REGION', 'CN')} />
       <meta name='geo.country' content={siteConfig('GEO_COUNTRY', 'CN')} />
-      {/* Open Graph 元数据 */}
+      {/* Open Graph 元数据 使用 canonicalUrl */}
       <meta property='og:locale' content={lang} />
       <meta property='og:title' content={title} />
       <meta property='og:description' content={description} />
-      <meta property='og:url' content={url} />
+      <meta property='og:url' content={canonicalUrl} />
       <meta property='og:image' content={image} />
       <meta property='og:image:width' content='1200' />
       <meta property='og:image:height' content='630' />
@@ -229,12 +231,12 @@ const SEO = props => {
         </>
       )}
 
-      {/* 结构化数据 */}
+      {/* 结构化数据 传入 canonicalUrl */}
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            generateStructuredData(meta, siteInfo, url, image, AUTHOR, LINK)
+            generateStructuredData(meta, siteInfo, canonicalUrl, image, AUTHOR, LINK)
           )
         }}
       />
