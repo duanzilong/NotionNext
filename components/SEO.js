@@ -38,8 +38,10 @@ const SEO = props => {
       ).then(url => {
         const WebFont = window?.WebFont
         if (WebFont) {
+          // console.log('LoadWebFont', webFontUrl)
           WebFont.load({
             custom: {
+              // families: ['"LXGW WenKai"'],
               urls: webFontUrl
             }
           })
@@ -60,15 +62,17 @@ const SEO = props => {
     url = createSiteUrl(url, meta.slug) || url
     image = getAbsoluteImageUrl(meta.image || '/bg_image.jpg', LINK)
   }
-
-  // ====================== 新增：独立计算 canonicalUrl 不污染原有url变量 ======================
+ 
+  // ==========新增开始==========
+  // 独立生成 canonicalUrl，仅用于SEO标签，不修改原有url，保护搜索路由
   let canonicalUrl = url
   if (process.env.NEXT_PUBLIC_CANONICAL_URL) {
     const canonicalBase = normalizeSiteUrl(process.env.NEXT_PUBLIC_CANONICAL_URL)
+    // 把原始url的域名替换成canonicalBase，保留路径slug不变
     const originUrlObj = new URL(url)
     canonicalUrl = createSiteUrl(canonicalBase, originUrlObj.pathname)
   }
-  // =========================================================================================
+  // ==========新增结束==========
 
   const TITLE = siteConfig('TITLE')
   const title = meta?.title || TITLE
@@ -155,7 +159,7 @@ const SEO = props => {
         />
       )}
 
-      {/* 基础SEO元数据 使用 canonicalUrl */}
+      {/* 基础SEO元数据 */}
       <link rel='canonical' href={canonicalUrl} />
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
@@ -166,7 +170,7 @@ const SEO = props => {
       <meta httpEquiv='content-language' content={language} />
       <meta name='geo.region' content={siteConfig('GEO_REGION', 'CN')} />
       <meta name='geo.country' content={siteConfig('GEO_COUNTRY', 'CN')} />
-      {/* Open Graph 元数据 使用 canonicalUrl */}
+      {/* Open Graph 元数据 */}
       <meta property='og:locale' content={lang} />
       <meta property='og:title' content={title} />
       <meta property='og:description' content={description} />
@@ -231,7 +235,7 @@ const SEO = props => {
         </>
       )}
 
-      {/* 结构化数据 传入 canonicalUrl */}
+      {/* 结构化数据 */}
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
