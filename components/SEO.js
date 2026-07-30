@@ -18,7 +18,13 @@ const SEO = props => {
     siteConfig('LINK', siteInfo?.link, NOTION_CONFIG)
   )
   const SUB_PATH = siteConfig('SUB_PATH', '')
-  let url = PATH?.length ? createSiteUrl(LINK, SUB_PATH) || LINK : LINK
+
+  // 使用环境变量 NEXT_PUBLIC_CANONICAL_URL 作为canonical域名，回退原有LINK
+  const canonicalBase = process.env.NEXT_PUBLIC_CANONICAL_URL
+    ? normalizeSiteUrl(process.env.NEXT_PUBLIC_CANONICAL_URL)
+    : LINK
+
+  let url = PATH?.length ? createSiteUrl(canonicalBase, SUB_PATH) || canonicalBase : canonicalBase
   let image
   const router = useRouter()
   const meta = getSEOMeta(props, router, useGlobal()?.locale)
