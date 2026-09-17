@@ -943,10 +943,11 @@ code[class*='language-'] {
 .notion-bookmark-image img {
   object-fit: cover;
   
+  align: right;
   object-position: center;/* 图片居中裁切 */
   
   width: 50%;
-  height: 50%;
+  height: 100%;
   position: absolute;
   
   /*top: 0; 图片居中裁切 */
