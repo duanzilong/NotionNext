@@ -935,26 +935,26 @@ code[class*='language-'] {
   flex: 1 1 180px;
   position: relative;
   
-  aspect-ratio: 16 / 9; /* 核心：强制16比9，窗口缩放/全屏都保持比例 */
-  overflow: hidden; /* 图片超出部分裁剪 */  
+ /* aspect-ratio: 16 / 9;  核心：强制16比9，窗口缩放/全屏都保持比例 */
+ /* overflow: hidden;  图片超出部分裁剪 */  
   
 }
 
 .notion-bookmark-image img {
   object-fit: cover;
   
-  object-position: center;/* 图片居中裁切 */
+  /*object-position: center; 图片居中裁切 */
   
   width: 100%;
   height: 100%;
   position: absolute;
   
-  top: 0;/* 图片居中裁切 */
-  left: 0;/* 图片居中裁切 */
+  /*top: 0; 图片居中裁切 */
+ /* left: 0; 图片居中裁切 */
 }
 
 .notion-column .notion-bookmark-image {
-  display: none;
+/*  display: none;*/
 }
 
 .notion-spacer {
@@ -1653,8 +1653,8 @@ code[class*='language-'] {
     max-width: inherit;
   }
 }
-
-@media (max-width: 640px) {
+/* 640>>480*/
+@media (max-width: 480px) {
   .notion-bookmark-image {
     display: none;
   }
