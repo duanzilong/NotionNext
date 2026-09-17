@@ -1653,8 +1653,8 @@ code[class*='language-'] {
     max-width: inherit;
   }
 }
-/* 640>>480*/
-@media (max-width: 480px) {
+/* 640>>320*/
+@media (max-width: 320px) {
   .notion-bookmark-image {
     display: none;
   }
