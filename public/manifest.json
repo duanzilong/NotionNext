@@ -1,7 +1,7 @@
 {
-  "name": "NotionNext Blog",
-  "short_name": "NotionNext",
-  "description": "A blog powered by NotionNext",
+  "name": "民联社",
+  "short_name": "民联社",
+  "description": "实事求是 群众路线 独立自主",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
