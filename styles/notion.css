@@ -625,7 +625,6 @@ summary > .notion-h {
   transition:
     border-color 100ms ease-in,
     opacity 100ms ease-in;
-  target: _blank;
 }
 
 .notion-link:hover {
