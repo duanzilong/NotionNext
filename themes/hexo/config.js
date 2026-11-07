@@ -28,12 +28,12 @@ const CONFIG = {
   HEXO_POST_LIST_COVER_DEFAULT: true, // 封面为空时用站点背景做默认封面
   HEXO_POST_LIST_SUMMARY: true, // 文章摘要
   HEXO_POST_LIST_PREVIEW: false, // 读取文章预览
-  HEXO_POST_LIST_IMG_CROSSOVER: true, // 博客列表图片左右交错
+  HEXO_POST_LIST_IMG_CROSSOVER: false, // 博客列表图片左右交错
 
   HEXO_ARTICLE_ADJACENT: true, // 显示上一篇下一篇文章推荐
   HEXO_ARTICLE_COPYRIGHT: true, // 文章版权声明：true 全部显示；false 全部关闭；custom 仅填写 copyright 时显示
   HEXO_ARTICLE_NOT_BY_AI: false, // 显示非AI写作
-  HEXO_ARTICLE_RECOMMEND: true, // 文章关联推荐
+  HEXO_ARTICLE_RECOMMEND: false, // 文章关联推荐
 
   HEXO_WIDGET_LATEST_POSTS: false, // 显示最新文章卡
   HEXO_WIDGET_ANALYTICS: false, // 显示统计卡
