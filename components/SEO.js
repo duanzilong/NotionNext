@@ -171,6 +171,30 @@ const SEO = props => {
           content={SEO_BAIDU_SITE_VERIFICATION}
         />
       )}
+{/* Bing */}
+{SEO_BING_SITE_VERIFICATION && (
+  <meta
+    name='msvalidate.01'
+    content={SEO_BING_SITE_VERIFICATION}
+  />
+)}
+
+{/* Yandex */}
+{SEO_YANDEX_SITE_VERIFICATION && (
+  <meta
+    name='yandex-verification'
+    content={SEO_YANDEX_SITE_VERIFICATION}
+  />
+)}
+
+{/* Naver */}
+{SEO_NAVER_SITE_VERIFICATION && (
+  <meta
+    name='naver-site-verification'
+    content={SEO_NAVER_SITE_VERIFICATION}
+  />
+)}
+
 
       {/* 基础SEO元数据 */}
       <link rel='canonical' href={url} />
