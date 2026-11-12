@@ -98,6 +98,24 @@ const SEO = props => {
     NOTION_CONFIG
   )
 
+  const SEO_BING_SITE_VERIFICATION = siteConfig(
+    'SEO_BING_SITE_VERIFICATION',
+    null,
+    NOTION_CONFIG
+  )
+
+  const SEO_YANDEX_SITE_VERIFICATION = siteConfig(
+    'SEO_YANDEX_SITE_VERIFICATION',
+    null,
+    NOTION_CONFIG
+  )
+
+  const SEO_NAVER_SITE_VERIFICATION = siteConfig(
+    'SEO_NAVER_SITE_VERIFICATION',
+    null,
+    NOTION_CONFIG
+  )
+
   const BLOG_FAVICON = siteConfig('BLOG_FAVICON', null, NOTION_CONFIG)
   const pwaEnabled = siteConfig('PWA_ENABLE', false, NOTION_CONFIG)
   const pwaConfig = pwaEnabled
